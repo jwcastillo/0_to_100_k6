@@ -1,0 +1,53 @@
+version: '3.8'
+
+networks:
+  k6:
+  grafana:
+  prometheus:
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    command:
+      - --web.enable-remote-write-receiver
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - k6
+      - grafana
+      - prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:10.1.2
+    networks:
+      - grafana
+      - prometheus
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+
+  k6:
+    image: grafana/k6
+    networks:
+      - k6
+    ports:
+      - "6565:6565"
+    environment:
+      - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
+      - K6_OUT=experimental-prometheus-rw
+      - K6_PROMETHEUS_RW_STALE_MARKERS=true
+      - K6_PROMETHEUS_RW_TREND_STATS=min,avg,p(95),p(99)
+
+    depends_on:
+      - prometheus
+    volumes:
+      - ../fundation:/scripts/fundation
+      - ../challegues:/scripts/challegues
+    # extra_hosts:
+    #   - "localhost:$DOCKERHOST"
