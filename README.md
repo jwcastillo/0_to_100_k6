@@ -88,24 +88,6 @@ Para utilizar el script, realiza los siguientes pasos:
 
 
 
-### Conocimientos Necesarios 🧠
-
-### Materiales y Documentación 📚
-
-### Configuraciones Previas ⚙️
-
-## Contenido del Workshop 📚
-
-### ¡Enciende los Motores! 🚀
-### Manos al Volante 🤲
-### Pit-Stop Técnico ⚙️
-### Adelantamientos Estratégicos 🚗
-### Zonas de DRS 🛣️
-### ¡Monitor de Carrera! 📊
-### Sobrepasando Bajo Bandera Amarilla 🟡
-### Vueltas Rápidas 🔄
-### Cruzando la Línea de Meta 🏁
-
 ## Licencia 📜
 
 Este proyecto está bajo la licencia Apache 2.0. Consulta el archivo [LICENSE](LICENSE) para más detalles.
