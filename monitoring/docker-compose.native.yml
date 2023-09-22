@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   k6:
@@ -34,7 +34,7 @@ services:
       - ./grafana:/etc/grafana/provisioning/
 
   k6:
-    image: grafana/k6
+    build: .
     networks:
       - k6
     ports:
@@ -47,8 +47,7 @@ services:
     depends_on:
       - prometheus
     volumes:
-      - ../fundation:/scripts/fundation
-      - ../challegues:/scripts/challegues
+      - ../:/scripts/
+
     # extra_hosts:
     #   - "localhost:$DOCKERHOST"
-

@@ -3,7 +3,7 @@
 #
 # This script simply executes a provided JavaScript test using
 # the local environment established with the `docker-compose`.
-# 
+#
 # Each execution is provided a unique tag to differentiate
 # discrete test runs within the Grafana dashboard.
 #
@@ -18,8 +18,8 @@ fi
 SCRIPT_NAME=$1
 TAG_NAME="$(basename -s .js $SCRIPT_NAME)-$(date +%s)"
 
-
-docker-compose -f monitoring/docker-compose.yml run --rm -T k6 run -<$SCRIPT_NAME --tag testid=$TAG_NAME
+docker-compose -f monitoring/docker-compose.yml run --rm -T k6 run - --tag testid=$TAG_NAME <$SCRIPT_NAME
 
 # for testing without tags
-# docker-compose run --rm -T k6 run -<$SCRIPT_NAME 
+# docker-compose run --rm -T k6 run -<$SCRIPT_NAME
+hn

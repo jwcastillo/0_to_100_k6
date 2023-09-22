@@ -1,10 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   k6:
   grafana:
   prometheus:
-
+volumes:
+  challengues:
 services:
   prometheus:
     image: prom/prometheus:v2.47.0
@@ -33,21 +34,22 @@ services:
       - ./grafana:/etc/grafana/provisioning/
 
   k6:
-    image: grafana/k6
+    build: .
     networks:
       - k6
     ports:
       - "6565:6565"
     environment:
       - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
+      # - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
       - K6_OUT=experimental-prometheus-rw
       - K6_PROMETHEUS_RW_STALE_MARKERS=true
       - K6_PROMETHEUS_RW_TREND_STATS=min,avg,p(95),p(99)
+      # - K6_HTTP_DEBUG=full
 
     depends_on:
       - prometheus
     volumes:
-      - ../fundation:/scripts/fundation
-      - ../challegues:/scripts/challegues
+      - ../:/scripts/
     # extra_hosts:
     #   - "localhost:$DOCKERHOST"
