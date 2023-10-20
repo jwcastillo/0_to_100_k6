@@ -8,8 +8,7 @@ import {
 
 export function navigateToCheckout() {
   group("Navigate to Checkout", function () {
-    const response = http.get(globalThis.vars["baseUrl"], {
-      //aca me falta la url
+    const response = http.get(`${globalThis.vars["baseUrl"]}/checkout/`, {
       headers: {
         accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -31,13 +30,12 @@ export function navigateToCheckout() {
     // dynamic value: update_order_review_nonce
     globalThis.vars["securityToken"] = findBetween(
       response.body,
-      "" /*que debiera colocar aca*/,
-      '"'
+      'update_order_review_nonce":"', '"'
     );
 
     // dynamic value: woocommerce-process-checkout-nonce
     globalThis.vars["checkoutToken"] = response
-      .html(/* aca me hace falta un valor*/)
+      .html("#woocommerce-process-checkout-nonce")
       .val();
 
     console.debug("Security token: " + globalThis.vars["securityToken"]);

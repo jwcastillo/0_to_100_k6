@@ -2,14 +2,18 @@ import { sleep, group } from "k6";
 import http from "k6/http";
 import { checkStatus } from "./utils.js";
 import { randomIntBetween } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
+import { Counter } from "k6/metrics";
+
+export const addcart = new Counter("addcart");
 
 export function addToCart() {
   group("Add to Cart", function () {
+    console.log(`Add to Cart`);
     const response = http.post(
-      vars["baseUrl"] , //me falta la url
+      `${globalThis.vars["baseUrl"]}/?wc-ajax=add_to_cart`,
       {
-        product_sku: `aca`,//aca debemos colocar le producto que seleccionamos antes,
-        product_id: `aca`,//aca debemos colocar le producto que seleccionamos antes,
+        product_sku: globalThis.vars["selectedProduct"].sku,
+        product_id: globalThis.vars["selectedProduct"].id,
         quantity: "1",
       },
       {
@@ -26,15 +30,15 @@ export function addToCart() {
         },
       }
     );
-
     checkStatus({
       response: response,
       expectedStatus: 200,
+      expectedContent: "1 item",
       failOnError: true,
-      printOnError: true
+      printOnError: true,
     });
   });
-
+  addcart.add(1);
 
   //Como podemos saber si el producto esta en el carrito?
 

@@ -18,6 +18,7 @@ fi
 SCRIPT_NAME=$1
 TAG_NAME="$(basename -s .js $SCRIPT_NAME)-$(date +%s)"
 
+
 docker-compose -f monitoring/docker-compose.yml run --rm -T k6 run - --tag testid=$TAG_NAME <$SCRIPT_NAME
 
 # for testing without tags

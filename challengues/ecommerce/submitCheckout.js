@@ -15,7 +15,21 @@ export function submitCheckout() {
     response = http.post(
       `${globalThis.vars["baseUrl"]}/?wc-ajax=checkout`,
       {
-        /* aca va un body*/
+        billing_first_name: "k6",
+        billing_last_name: "Test",
+        billing_company: "",
+        billing_country: "US",
+        billing_address_1: "Street Address 1",
+        billing_address_2: "",
+        billing_city: "Frisco",
+        billing_state: "CO",
+        billing_postcode: "80443",
+        billing_phone: "7201234567",
+        billing_email: "anon@k6.io",
+        order_comments: "",
+        payment_method: "cod",
+        "woocommerce-process-checkout-nonce": globalThis.vars["checkoutToken"],
+        _wp_http_referer: "/?wc-ajax=update_order_review",
       },
       {
         headers: {

@@ -11,6 +11,7 @@ services:
     image: prom/prometheus:v2.47.0
     command:
       - --web.enable-remote-write-receiver
+      # - --enable-feature=native-histograms
       - --config.file=/etc/prometheus/prometheus.yml
     networks:
       - k6
@@ -34,7 +35,8 @@ services:
       - ./grafana:/etc/grafana/provisioning/
 
   k6:
-    build: .
+    image: grafana/k6:master-with-browser
+    # build: .
     networks:
       - k6
     ports:
